@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WCSH Disease Ranking Dashboard</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-container svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .controls-section {
+            padding: 30px;
+            background: #f7fafc;
+            border-bottom: 3px solid #e2e8f0;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        select {
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+            background: white;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234a5568' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+            height: 48px;
+            width: 100%;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-load {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            height: 48px;
+            width: 100%;
+        }
+
+        .btn-load:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f7fafc;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .stat-card.morbidity {
+            border-left-color: #48bb78;
+        }
+
+        .stat-card.mortality {
+            border-left-color: #f56565;
+        }
+
+        .stat-card.diseases {
+            border-left-color: #ed8936;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #718096;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .stat-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        .ranking-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e2e8f0;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        .section-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .ranking-table thead {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+        }
+
+        .ranking-table th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ranking-table td {
+            padding: 16px 15px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95em;
+        }
+
+        .ranking-table tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        .ranking-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rank-badge {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .rank-1 {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #744210;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+        }
+
+        .rank-2 {
+            background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+            color: #4a5568;
+        }
+
+        .rank-3 {
+            background: linear-gradient(135deg, #cd7f32 0%, #e6a76f 100%);
+            color: #744210;
+        }
+
+        .rank-other {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .disease-code {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+
+        .disease-name {
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        .case-count {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: #2d3748;
+        }
+
+        .percentage-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .percentage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .percentage-fill.morbidity {
+            background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .percentage-fill.mortality {
+            background: linear-gradient(90deg, #f56565 0%, #e53e3e 100%);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #718096;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e2e8f0;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px;
+            color: #718096;
+            font-size: 1.1em;
+        }
+
+        .no-data-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-error {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #fc8181;
+        }
+
+        .alert-info {
+            background: #bee3f8;
+            color: #2c5282;
+            border: 1px solid #90cdf4;
+        }
+
+        .gender-split {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .gender-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85em;
+            color: #718096;
+        }
+
+        .gender-icon {
+            font-weight: 700;
+        }
+
+        .male-icon {
+            color: #4299e1;
+        }
+
+        .female-icon {
+            color: #ed64a6;
+        }
+
+        /* Navigation buttons */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            color: #ff6b35;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            background: #fff5f0;
+        }
+
+        .nav-button-left {
+            left: 30px;
+        }
+
+        .nav-button-right {
+            right: 30px;
+        }
+
+        .nav-icon {
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .nav-button {
+                padding: 10px 16px;
+                font-size: 0.85em;
+            }
+            
+            .nav-button-left {
+                left: 15px;
+            }
+            
+            .nav-button-right {
+                right: 15px;
+            }
+        }
+
+        /* Bottom Navigation Buttons */
+        .bottom-nav {
+            position: relative;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .bottom-btn {
+            padding: 15px 35px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            flex: 1;
+            max-width: 250px;
+            justify-content: center;
+        }
+
+        .bottom-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        .bottom-btn-home {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .bottom-btn-action {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+        }
+
+        .bottom-btn-icon {
+            font-size: 1.3em;
+        }
+
+        /* Add padding to body to prevent content from being hidden behind bottom nav */
+        body {
+            padding-bottom: 100px;
+        }
+
+        /* Responsive Tables */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -15px;
+            padding: 0 15px;
+        }
+
+        @media (max-width: 1024px) {
+            .ranking-table {
+                font-size: 0.85em;
+            }
+
+            .ranking-table th,
+            .ranking-table td {
+                padding: 12px 10px;
+            }
+
+            .disease-code {
+                font-size: 0.75em;
+                padding: 3px 8px;
+            }
+
+            .rank-badge {
+                width: 35px;
+                height: 35px;
+                line-height: 35px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-content {
+                padding: 20px 15px;
+            }
+
+            .ranking-section {
+                margin-bottom: 30px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .ranking-table {
+                font-size: 0.8em;
+            }
+
+            .ranking-table th,
+            .ranking-table td {
+                padding: 10px 8px;
+            }
+
+            .disease-name {
+                display: block;
+                margin-top: 5px;
+            }
+
+            .percentage-bar {
+                display: none;
+            }
+
+            .gender-split {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .bottom-nav {
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .bottom-btn {
+                padding: 12px 20px;
+                font-size: 0.9em;
+                max-width: none;
+            }
+
+            .bottom-btn-icon {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ranking-table th:nth-child(4),
+            .ranking-table td:nth-child(4) {
+                display: none;
+            }
+
+            .bottom-btn {
+                padding: 10px 15px;
+                font-size: 0.85em;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .stat-value {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="assets/images/logo.png" alt="WCSH Hospital Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <rect x="42" y="20" width="16" height="60" fill="#ff6b35"/>
+                    <rect x="20" y="42" width="60" height="16" fill="#ff6b35"/>
+                    <path d="M50 75 Q35 65 35 52 Q35 45 40 42 Q45 39 50 45 Q55 39 60 42 Q65 45 65 52 Q65 65 50 75" fill="#ff8c42" opacity="0.7"/>
+                </svg>
+            </div>
+            <div class="header-text">
+                <h1>📊 Disease Ranking Dashboard</h1>
+                <p>Real-time Disease Surveillance and Analytics</p>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <div id="alertBox" class="alert"></div>
+            
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="filterMonth">Month</label>
+                    <select id="filterMonth">
+                        <option value="">All Months</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="filterYear">Year</label>
+                    <select id="filterYear">
+                        <option value="">All Years</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="filterDepartment">Department</label>
+                    <select id="filterDepartment">
+                            <option value="">All Departments</option>
+                            <option value="Pediatrics Ward">Pediatrics Ward</option>
+                            <option value="Internal Medicine">Internal Medicine</option>
+                            <option value="Surgical Ward">Surgical Ward</option>
+                            <option value="OB/GYN">OB/GYN</option>
+                            <option value="AICU">AICU</option>
+                            <option value="Psychiatry">Psychiatry</option>
+                            <option value="PICU">PICU</option>
+                            <option value="NICU">NICU</option>
+                            <option value="Oncology">Oncology</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Orthopedics">Orthopedics</option>
+                            <option value="Plastic">Plastic</option>
+                            <option value="ENT">ENT</option>
+                            <option value="Maxillofacial">Maxillofacial</option>
+                            <option value="Ophthalmology">Ophthalmology</option>
+                            <option value="Addiction">Addiction</option>
+                            <option value="Adult HDU">Adult HDU</option>
+                            <option value="Pediatrics HDU">Pediatrics HDU</option>
+                            <option value="Adult Emergency">Adult Emergency</option>
+                            <option value="Pediatrics Emergency">Pediatrics Emergency</option>
+                            <option value="Psychiatry Emergency">Psychiatry Emergency</option>
+                            <option value="Ophthalmology Emergency">Ophthalmology Emergency</option>
+                            <option value="Dental Emergency ">Dental Emergency </option>
+                            <option value="ENT Emergency">ENT Emergency</option>
+                            <option value="Medical OPD">Medical OPD</option>
+                            <option value="Pediatrics OPD">Pediatrics OPD</option>
+                            <option value="Ophthalmology OPD">Ophthalmology OPD</option>
+                            <option value="Dental OPD">Dental OPD</option>
+                            <option value="ENT OPD">ENT OPD</option>
+                            <option value="Surgical OPD">Surgical OPD</option>
+                            <option value="Chronic OPD ">Chronic OPD </option>
+                            <option value="Orthopedics OPD">Orthopedics OPD</option>
+                            <option value="Dermatology OPD">Dermatology OPD</option>
+                            <option value="OB/GYN OPD">OB/GYN OPD</option>
+                            <option value="Cough OPD">Cough OPD</option>
+                            <option value="Physiotherapy OPD">Physiotherapy OPD</option>
+                            <option value="Oncology OPD">Oncology OPD</option>
+                            <option value="Maxillofacial OPD">Maxillofacial OPD</option>
+                            <option value="Psychiatry OPD">Psychiatry OPD</option>
+                            <option value="Psychiatry Addiction OPD">Psychiatry Addiction OPD</option>
+                            <option value="Psychiatry Child OPD">Psychiatry Child OPD</option>
+                            <option value="Dialysis OPD">Dialysis OPD</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>&nbsp;</label>
+                    <button onclick="loadDashboard()" class="btn-load">🔄 Load Data</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid" id="statsGrid" style="display: none;">
+            <div class="stat-card morbidity">
+                <div class="stat-icon">🏥</div>
+                <div class="stat-label">Total Morbidity</div>
+                <div class="stat-value" id="totalMorbidity">0</div>
+            </div>
+            <div class="stat-card mortality">
+                <div class="stat-icon">💔</div>
+                <div class="stat-label">Total Mortality</div>
+                <div class="stat-value" id="totalMortality">0</div>
+            </div>
+            <div class="stat-card diseases">
+                <div class="stat-icon">🦠</div>
+                <div class="stat-label">Unique Diseases</div>
+                <div class="stat-value" id="uniqueDiseases">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-label">Total Cases</div>
+                <div class="stat-value" id="totalCases">0</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <div id="loadingIndicator" class="loading" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Loading disease data...</p>
+            </div>
+
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                <div class="no-data-icon">📭</div>
+                <p>No data available for the selected filters</p>
+                <p style="font-size: 0.9em; margin-top: 10px;">Try selecting different month, year, or department</p>
+            </div>
+
+            <!-- Morbidity Ranking -->
+            <div id="morbiditySection" class="ranking-section" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">🏥 Top Diseases by Morbidity</h2>
+                    <span class="section-badge" id="morbidityCount">0 Diseases</span>
+                </div>
+                <div class="table-container">
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">Rank</th>
+                                <th>Disease</th>
+                                <th style="width: 150px;">Cases</th>
+                                <th style="width: 200px;">Distribution</th>
+                                <th style="width: 150px;">Gender Split</th>
+                            </tr>
+                        </thead>
+                        <tbody id="morbidityTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Mortality Ranking -->
+            <div id="mortalitySection" class="ranking-section" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">💔 Top Diseases by Mortality</h2>
+                    <span class="section-badge" id="mortalityCount">0 Diseases</span>
+                </div>
+                <div class="table-container">
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">Rank</th>
+                                <th>Disease</th>
+                                <th style="width: 150px;">Deaths</th>
+                                <th style="width: 200px;">Distribution</th>
+                                <th style="width: 150px;">Gender Split</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mortalityTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="index.html" class="bottom-btn bottom-btn-home">
+            <span class="bottom-btn-icon">🏠</span>
+            <span>Back to Home</span>
+        </a>
+        <a href="report.html" class="bottom-btn bottom-btn-action">
+            <span class="bottom-btn-icon">📝</span>
+            <span>Submit Report</span>
+        </a>
+    </div>
+
+    </div>
+
+    
+
+    <script>
+        // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyc4Lz6Hl9bvs1Dyw9NT1c-m5jVbiHMZRrv75phiCIDJg8lWDLFvYBtuVilMFfq_wbw/exec';
+
+        // Populate year dropdown
+        const yearSelect = document.getElementById('filterYear');
+        const currentYear = new Date().getFullYear();
+        for (let year = currentYear; year >= currentYear - 5; year--) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearSelect.appendChild(option);
+        }
+
+        // Set current month and year as default
+        const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+        document.getElementById('filterMonth').value = currentMonth;
+        document.getElementById('filterYear').value = currentYear;
+
+        // Load dashboard on page load
+        window.addEventListener('load', () => {
+            loadDashboard();
+        });
+        // WCSH Disease Ranking Dashboard - JavaScript Part 2
+// Copy this code and paste it in the <script> section of Part 1, after the window.addEventListener line
+
+async function loadDashboard() {
+    const month = document.getElementById('filterMonth').value;
+    const year = document.getElementById('filterYear').value;
+    const department = document.getElementById('filterDepartment').value;
+
+    // Show loading
+    document.getElementById('loadingIndicator').style.display = 'block';
+    document.getElementById('statsGrid').style.display = 'none';
+    document.getElementById('morbiditySection').style.display = 'none';
+    document.getElementById('mortalitySection').style.display = 'none';
+    document.getElementById('noDataMessage').style.display = 'none';
+
+    try {
+        // Fetch data from Google Sheets
+        const response = await fetch(`${SCRIPT_URL}?action=getRankings&month=${month}&year=${year}&department=${department}`);
+        const data = await response.json();
+
+        if (data.status === 'error') {
+            showAlert(data.message, 'error');
+            document.getElementById('loadingIndicator').style.display = 'none';
+            document.getElementById('noDataMessage').style.display = 'block';
+            return;
+        }
+
+        // Hide loading
+        document.getElementById('loadingIndicator').style.display = 'none';
+
+        if (!data.morbidityRankings || data.morbidityRankings.length === 0) {
+            document.getElementById('noDataMessage').style.display = 'block';
+            return;
+        }
+
+        // Show stats
+        displayStatistics(data);
+
+        // Show rankings
+        displayMorbidityRankings(data.morbidityRankings);
+        displayMortalityRankings(data.mortalityRankings);
+
+    } catch (error) {
+        console.error('Error loading dashboard:', error);
+        document.getElementById('loadingIndicator').style.display = 'none';
+        showAlert('Error loading data. Please check your Google Apps Script URL.', 'error');
+    }
+}
+
+function displayStatistics(data) {
+    const stats = data.statistics;
+    
+    document.getElementById('totalMorbidity').textContent = formatNumber(stats.totalMorbidity);
+    document.getElementById('totalMortality').textContent = formatNumber(stats.totalMortality);
+    document.getElementById('uniqueDiseases').textContent = formatNumber(stats.uniqueDiseases);
+    document.getElementById('totalCases').textContent = formatNumber(stats.totalCases);
+
+    document.getElementById('statsGrid').style.display = 'grid';
+}
+
+function displayMorbidityRankings(rankings) {
+    if (!rankings || rankings.length === 0) {
+        return;
+    }
+
+    const tbody = document.getElementById('morbidityTableBody');
+    tbody.innerHTML = '';
+
+    const maxCases = rankings[0].totalCases;
+
+    rankings.forEach((disease, index) => {
+        const rank = index + 1;
+        const percentage = (disease.totalCases / maxCases) * 100;
+        
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td>
+                <div class="rank-badge ${getRankClass(rank)}">${rank}</div>
+            </td>
+            <td>
+                <span class="disease-code">${disease.icdCode}</span>
+                <span class="disease-name">${disease.diseaseName}</span>
+            </td>
+            <td>
+                <div class="case-count">${formatNumber(disease.totalCases)}</div>
+            </td>
+            <td>
+                <div class="percentage-bar">
+                    <div class="percentage-fill morbidity" style="width: ${percentage}%"></div>
+                </div>
+            </td>
+            <td>
+                <div class="gender-split">
+                    <div class="gender-item">
+                        <span class="gender-icon male-icon">♂</span>
+                        <span>${formatNumber(disease.maleCases)}</span>
+                    </div>
+                    <div class="gender-item">
+                        <span class="gender-icon female-icon">♀</span>
+                        <span>${formatNumber(disease.femaleCases)}</span>
+                    </div>
+                </div>
+            </td>
+        `;
+    });
+
+    document.getElementById('morbidityCount').textContent = `${rankings.length} Diseases`;
+    document.getElementById('morbiditySection').style.display = 'block';
+}
+
+function displayMortalityRankings(rankings) {
+    if (!rankings || rankings.length === 0) {
+        return;
+    }
+
+    const tbody = document.getElementById('mortalityTableBody');
+    tbody.innerHTML = '';
+
+    const maxCases = rankings[0].totalCases;
+
+    rankings.forEach((disease, index) => {
+        const rank = index + 1;
+        const percentage = (disease.totalCases / maxCases) * 100;
+        
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td>
+                <div class="rank-badge ${getRankClass(rank)}">${rank}</div>
+            </td>
+            <td>
+                <span class="disease-code">${disease.icdCode}</span>
+                <span class="disease-name">${disease.diseaseName}</span>
+            </td>
+            <td>
+                <div class="case-count">${formatNumber(disease.totalCases)}</div>
+            </td>
+            <td>
+                <div class="percentage-bar">
+                    <div class="percentage-fill mortality" style="width: ${percentage}%"></div>
+                </div>
+            </td>
+            <td>
+                <div class="gender-split">
+                    <div class="gender-item">
+                        <span class="gender-icon male-icon">♂</span>
+                        <span>${formatNumber(disease.maleCases)}</span>
+                    </div>
+                    <div class="gender-item">
+                        <span class="gender-icon female-icon">♀</span>
+                        <span>${formatNumber(disease.femaleCases)}</span>
+                    </div>
+                </div>
+            </td>
+        `;
+    });
+
+    document.getElementById('mortalityCount').textContent = `${rankings.length} Diseases`;
+    document.getElementById('mortalitySection').style.display = 'block';
+}
+
+function getRankClass(rank) {
+    if (rank === 1) return 'rank-1';
+    if (rank === 2) return 'rank-2';
+    if (rank === 3) return 'rank-3';
+    return 'rank-other';
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function showAlert(message, type) {
+    const alertBox = document.getElementById('alertBox');
+    alertBox.textContent = message;
+    alertBox.className = `alert alert-${type}`;
+    alertBox.style.display = 'block';
+    
+    setTimeout(() => {
+        alertBox.style.display = 'none';
+    }, 5000);
+}
+
+    </script>
+</body>
+</html>

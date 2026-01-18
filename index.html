@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WCSH Disease Reporting System - Home</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 5px solid #ff8c42;
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo svg {
+            width: 90px;
+            height: 90px;
+        }
+
+        .subtitle {
+            color: #718096;
+            margin-bottom: 50px;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        }
+
+        .btn-icon {
+            font-size: 3.5em;
+            margin-bottom: 5px;
+        }
+
+        .btn-report {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-label {
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        .btn-desc {
+            font-size: 0.85em;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        .features {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .features h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            color: #4a5568;
+        }
+
+        .feature-icon {
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 600px) {
+            .buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .logo {
+                width: 120px;
+                height: 120px;
+            }
+
+            .logo svg {
+                width: 70px;
+                height: 70px;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 WCSH Hospital</h1>
+        
+        <!-- Hospital Logo Below Title -->
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="WCSH Hospital Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <rect x="42" y="20" width="16" height="60" fill="#ff8c42"/>
+                <rect x="20" y="42" width="60" height="16" fill="#ff8c42"/>
+                <path d="M50 75 Q35 65 35 52 Q35 45 40 42 Q45 39 50 45 Q55 39 60 42 Q65 45 65 52 Q65 65 50 75" fill="#ff6b35" opacity="0.7"/>
+            </svg>
+        </div>
+
+        <p class="subtitle">
+            <strong>Disease Reporting & Surveillance System</strong><br>
+            Monthly Disease Data Collection and Analysis
+        </p>
+
+        <div class="features">
+            <h3>✨ System Features</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span>Multi-disease entry</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <span>Real-time analytics</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔍</span>
+                    <span>ICD-11 coding</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">👥</span>
+                    <span>Age/gender tracking</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🏆</span>
+                    <span>Disease rankings</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📈</span>
+                    <span>Trend analysis</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <a href="report.html" class="btn btn-report">
+                <div class="btn-icon">📝</div>
+                <div class="btn-label">Submit Report</div>
+                <div class="btn-desc">Enter monthly disease data</div>
+            </a>
+
+            <a href="ranking.html" class="btn btn-view">
+                <div class="btn-icon">📊</div>
+                <div class="btn-label">View Rankings</div>
+                <div class="btn-desc">Analyze disease statistics</div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p><strong>WCSH Hospital Disease Surveillance</strong></p>
+            <p>Monthly Reporting System</p>
+            <p style="margin-top: 15px;">© 2026 WCSH Health Innovation Hub</p>
+        </div>
+    </div>
+</body>
+</html>
