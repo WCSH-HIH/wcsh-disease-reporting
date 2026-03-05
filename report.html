@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WCSH Disease Reporting System</title>
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/logo.png">
     <link rel="apple-touch-icon" href="assets/images/logo.png">
     
@@ -144,7 +143,6 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        /* FIX: Responsive outcome buttons */
         .outcome-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -161,7 +159,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
-            min-width: 0; /* Allow shrinking */
+            min-width: 0;
         }
 
         .radio-option:hover {
@@ -189,7 +187,6 @@
             font-weight: 700;
         }
 
-        /* FIX: Responsive data table */
         .table-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -198,7 +195,7 @@
 
         .data-table {
             width: 100%;
-            min-width: 500px; /* Prevents crushing */
+            min-width: 500px;
             border-collapse: separate;
             border-spacing: 0;
             margin-top: 15px;
@@ -340,7 +337,6 @@
             display: block;
         }
 
-        /* FIX: Responsive summary table */
         .summary-table-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -349,7 +345,7 @@
 
         .summary-table {
             width: 100%;
-            min-width: 650px; /* Prevents crushing */
+            min-width: 650px;
             border-collapse: collapse;
             margin-top: 15px;
             background: white;
@@ -416,11 +412,76 @@
             color: #2c5282;
         }
 
+        /* MOD 2: Draft saved banner */
+        .draft-banner {
+            display: none;
+            background: #fefcbf;
+            border: 1px solid #f6e05e;
+            border-left: 4px solid #d69e2e;
+            color: #744210;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .draft-banner.hidden {
+            display: none !important;
+        }
+
+        .draft-banner-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-restore-draft {
+            background: #d69e2e;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .btn-restore-draft:hover {
+            background: #b7791f;
+        }
+
+        .btn-discard-draft {
+            background: transparent;
+            color: #744210;
+            border: 1px solid #d69e2e;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .btn-discard-draft:hover {
+            background: #fef3c7;
+        }
+
+        .autosave-indicator {
+            font-size: 0.8em;
+            color: #48bb78;
+            margin-top: 6px;
+            min-height: 18px;
+            transition: opacity 0.5s;
+        }
+
         .bottom-nav {
             position: relative;
-            bottom: 0;
-            left: 0;
-            right: 0;
             background: white;
             padding: 20px;
             box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
@@ -473,115 +534,33 @@
             font-weight: 600;
         }
 
-        /* Mobile Responsive Fixes */
         @media (max-width: 768px) {
-            .form-content {
-                padding: 20px;
-            }
-
-            .form-section {
-                padding: 15px;
-            }
-
-            .header h1 {
-                font-size: 1.5em;
-            }
-
-            .header p {
-                font-size: 0.9em;
-            }
-
-            .outcome-group {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .radio-option {
-                padding: 10px 12px;
-            }
-
-            .radio-option label {
-                white-space: normal;
-                font-size: 0.9em;
-            }
-
-            .data-table th,
-            .data-table td {
-                padding: 10px 8px;
-                font-size: 0.85em;
-            }
-
-            .data-table th:first-child {
-                min-width: 100px;
-            }
-
-            .summary-table th,
-            .summary-table td {
-                padding: 8px 6px;
-                font-size: 0.75em;
-            }
-
-            .bottom-nav {
-                padding: 15px;
-                gap: 10px;
-            }
-
-            .bottom-btn {
-                padding: 12px 20px;
-                font-size: 0.9em;
-                max-width: none;
-            }
-
-            .bottom-btn-icon {
-                font-size: 1.1em;
-            }
-
-            .btn {
-                padding: 12px 25px;
-                font-size: 1em;
-            }
+            .form-content { padding: 20px; }
+            .form-section { padding: 15px; }
+            .header h1 { font-size: 1.5em; }
+            .header p { font-size: 0.9em; }
+            .outcome-group { grid-template-columns: 1fr; gap: 10px; }
+            .radio-option { padding: 10px 12px; }
+            .radio-option label { white-space: normal; font-size: 0.9em; }
+            .data-table th, .data-table td { padding: 10px 8px; font-size: 0.85em; }
+            .data-table th:first-child { min-width: 100px; }
+            .summary-table th, .summary-table td { padding: 8px 6px; font-size: 0.75em; }
+            .bottom-nav { padding: 15px; gap: 10px; }
+            .bottom-btn { padding: 12px 20px; font-size: 0.9em; max-width: none; }
+            .bottom-btn-icon { font-size: 1.1em; }
+            .btn { padding: 12px 25px; font-size: 1em; }
+            .draft-banner { flex-direction: column; align-items: flex-start; }
         }
 
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
-                padding-bottom: 90px;
-            }
-
-            .container {
-                border-radius: 12px;
-            }
-
-            .header {
-                padding: 20px;
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .header-text {
-                text-align: center;
-            }
-
-            .logo-container {
-                width: 60px;
-                height: 60px;
-            }
-
-            .form-content {
-                padding: 15px;
-            }
-
-            .form-section {
-                padding: 12px;
-                margin-bottom: 20px;
-            }
-
-            .bottom-btn {
-                padding: 10px 15px;
-                font-size: 0.85em;
-                flex-direction: column;
-                gap: 5px;
-            }
+            body { padding: 10px; padding-bottom: 90px; }
+            .container { border-radius: 12px; }
+            .header { padding: 20px; flex-direction: column; gap: 10px; }
+            .header-text { text-align: center; }
+            .logo-container { width: 60px; height: 60px; }
+            .form-content { padding: 15px; }
+            .form-section { padding: 12px; margin-bottom: 20px; }
+            .bottom-btn { padding: 10px 15px; font-size: 0.85em; flex-direction: column; gap: 5px; }
         }
     </style>
 </head>
@@ -598,12 +577,24 @@
             </div>
             <div class="header-text">
                 <h1>WCSH Disease Reporting System</h1>
-                <p>Monthly Disease Surveillance & Reporting</p>
+                <p>Monthly Disease Surveillance &amp; Reporting</p>
             </div>
         </div>
 
         <div class="form-content">
             <div id="alertBox" class="alert"></div>
+
+            <!-- MOD 2: Draft recovery banner (shown on load if a saved draft exists) -->
+            <div id="draftBanner" class="draft-banner hidden">
+                <div class="draft-banner-text">
+                    <span>⚡</span>
+                    <span id="draftBannerMsg">Unsaved draft found from your last session.</span>
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn-restore-draft" onclick="restoreDraft()">Restore Draft</button>
+                    <button class="btn-discard-draft" onclick="discardDraft()">Discard</button>
+                </div>
+            </div>
 
             <!-- Step 1: Basic Information -->
             <div id="basicInfoSection">
@@ -614,18 +605,19 @@
                             <label for="month">Month</label>
                             <select id="month" required>
                                 <option value="">Select Month</option>
-                                <option value="January">January</option>
-                                <option value="February">February</option>
-                                <option value="March">March</option>
-                                <option value="April">April</option>
-                                <option value="May">May</option>
-                                <option value="June">June</option>
-                                <option value="July">July</option>
-                                <option value="August">August</option>
-                                <option value="September">September</option>
-                                <option value="October">October</option>
-                                <option value="November">November</option>
-                                <option value="December">December</option>
+                                <!-- MOD 3: Ethiopian calendar months shown in brackets; value stays English -->
+                                <option value="January">January (ጥር)</option>
+<option value="February">February (የካቲት)</option>
+<option value="March">March (መጋቢት)</option>
+<option value="April">April (ሚያዚያ)</option>
+<option value="May">May (ግንቦት)</option>
+<option value="June">June (ሰኔ)</option>
+<option value="July">July (ሐምሌ)</option>
+<option value="August">August (ነሐሴ)</option>
+<option value="September">September (መስከረም)</option>
+<option value="October">October (ጥቅምት)</option>
+<option value="November">November (ህዳር)</option>
+<option value="December">December (ታህሳስ)</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -636,7 +628,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- CONTINUATION OF report.html - PASTE THIS AFTER PART 1 -->
 
                 <div class="form-section">
                     <h2>🏢 Department</h2>
@@ -686,9 +677,6 @@
                             <option value="Psychiatry Addiction OPD">Psychiatry Addiction OPD</option>
                             <option value="Psychiatry Child OPD">Psychiatry Child OPD</option>
                             <option value="Dialysis OPD">Dialysis OPD</option>
-                            <option value="OPD 49">OPD 49</option>
-                            <option value="OPD 50">OPD 50</option>
-                            <option value="OPD 51">OPD 51</option>
                         </select>
                     </div>
                 </div>
@@ -719,6 +707,9 @@
                     <button type="button" onclick="unlockBasicInfo()" style="float: right; background: #3182ce; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">Change</button>
                 </div>
 
+                <!-- MOD 2: Autosave indicator -->
+                <div id="autosaveIndicator" class="autosave-indicator"></div>
+
                 <div class="form-section">
                     <h2>🔬 Disease Selection (ICD-11)</h2>
                     <div class="form-group">
@@ -731,7 +722,7 @@
                 </div>
 
                 <div class="form-section">
-                    <h2>👥 Age & Sex Distribution</h2>
+                    <h2>👥 Age &amp; Sex Distribution</h2>
                     <div class="table-wrapper">
                         <table class="data-table">
                             <thead>
@@ -742,36 +733,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>&lt; 1 year</td>
-                                    <td><input type="number" id="male_lt1" min="0" value="0"></td>
-                                    <td><input type="number" id="female_lt1" min="0" value="0"></td>
-                                </tr>
-                                <tr>
-                                    <td>1-4 years</td>
-                                    <td><input type="number" id="male_1_4" min="0" value="0"></td>
-                                    <td><input type="number" id="female_1_4" min="0" value="0"></td>
-                                </tr>
-                                <tr>
-                                    <td>5-14 years</td>
-                                    <td><input type="number" id="male_5_14" min="0" value="0"></td>
-                                    <td><input type="number" id="female_5_14" min="0" value="0"></td>
-                                </tr>
-                                <tr>
-                                    <td>15-29 years</td>
-                                    <td><input type="number" id="male_15_29" min="0" value="0"></td>
-                                    <td><input type="number" id="female_15_29" min="0" value="0"></td>
-                                </tr>
-                                <tr>
-                                    <td>30-64 years</td>
-                                    <td><input type="number" id="male_30_64" min="0" value="0"></td>
-                                    <td><input type="number" id="female_30_64" min="0" value="0"></td>
-                                </tr>
-                                <tr>
-                                    <td>≥ 65 years</td>
-                                    <td><input type="number" id="male_65plus" min="0" value="0"></td>
-                                    <td><input type="number" id="female_65plus" min="0" value="0"></td>
-                                </tr>
+                                <tr><td>&lt; 1 year</td><td><input type="number" id="male_lt1" min="0" value="0"></td><td><input type="number" id="female_lt1" min="0" value="0"></td></tr>
+                                <tr><td>1-4 years</td><td><input type="number" id="male_1_4" min="0" value="0"></td><td><input type="number" id="female_1_4" min="0" value="0"></td></tr>
+                                <tr><td>5-14 years</td><td><input type="number" id="male_5_14" min="0" value="0"></td><td><input type="number" id="female_5_14" min="0" value="0"></td></tr>
+                                <tr><td>15-29 years</td><td><input type="number" id="male_15_29" min="0" value="0"></td><td><input type="number" id="female_15_29" min="0" value="0"></td></tr>
+                                <tr><td>30-64 years</td><td><input type="number" id="male_30_64" min="0" value="0"></td><td><input type="number" id="female_30_64" min="0" value="0"></td></tr>
+                                <tr><td>≥ 65 years</td><td><input type="number" id="male_65plus" min="0" value="0"></td><td><input type="number" id="female_65plus" min="0" value="0"></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -796,8 +763,7 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="summaryTableBody">
-                            </tbody>
+                            <tbody id="summaryTableBody"></tbody>
                         </table>
                     </div>
                     <button type="button" onclick="submitAllDiseases()" class="btn btn-submit" style="width: 100%; margin-top: 20px;" id="finalSubmitBtn" disabled>
@@ -821,13 +787,141 @@
     </div>
 
     <script>
-        // Global variables
+        // ─────────────────────────────────────────────
+        // GLOBAL STATE
+        // ─────────────────────────────────────────────
         let diseases = [];
         let addedDiseases = [];
         let basicInfo = {};
         let currentFocus = -1;
 
-        // Load diseases from external JSON file
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyc4Lz6Hl9bvs1Dyw9NT1c-m5jVbiHMZRrv75phiCIDJg8lWDLFvYBtuVilMFfq_wbw/exec';
+
+        // ─────────────────────────────────────────────
+        // MOD 2: DRAFT PERSISTENCE using IndexedDB
+        // IndexedDB works offline, survives power cuts,
+        // and has no size limits — unlike cookies/sessionStorage.
+        // ─────────────────────────────────────────────
+        const DB_NAME = 'WCSHReportDraft';
+        const DB_STORE = 'draft';
+        const DRAFT_KEY = 'currentDraft';
+        let db = null;
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, 1);
+                req.onupgradeneeded = (e) => {
+                    e.target.result.createObjectStore(DB_STORE);
+                };
+                req.onsuccess = (e) => { db = e.target.result; resolve(db); };
+                req.onerror = (e) => reject(e);
+            });
+        }
+
+        function saveDraftToDB(draftData) {
+            if (!db) return;
+            const tx = db.transaction(DB_STORE, 'readwrite');
+            tx.objectStore(DB_STORE).put(draftData, DRAFT_KEY);
+        }
+
+        function getDraftFromDB() {
+            return new Promise((resolve, reject) => {
+                if (!db) return resolve(null);
+                const tx = db.transaction(DB_STORE, 'readonly');
+                const req = tx.objectStore(DB_STORE).get(DRAFT_KEY);
+                req.onsuccess = (e) => resolve(e.target.result || null);
+                req.onerror = (e) => reject(e);
+            });
+        }
+
+        function clearDraftFromDB() {
+            if (!db) return;
+            const tx = db.transaction(DB_STORE, 'readwrite');
+            tx.objectStore(DB_STORE).delete(DRAFT_KEY);
+        }
+
+        // Auto-save current state to IndexedDB
+        function autoSaveDraft() {
+            if (addedDiseases.length === 0 && Object.keys(basicInfo).length === 0) return;
+            const draft = {
+                basicInfo: basicInfo,
+                addedDiseases: addedDiseases,
+                savedAt: new Date().toLocaleString()
+            };
+            saveDraftToDB(draft);
+            showAutosaveIndicator('✓ Draft auto-saved at ' + draft.savedAt);
+        }
+
+        function showAutosaveIndicator(msg) {
+            const el = document.getElementById('autosaveIndicator');
+            if (!el) return;
+            el.textContent = msg;
+            el.style.opacity = '1';
+            setTimeout(() => { el.style.opacity = '0'; }, 3000);
+        }
+
+        // Restore a saved draft
+        function restoreDraft() {
+            getDraftFromDB().then(draft => {
+                if (!draft) return;
+
+                basicInfo = draft.basicInfo || {};
+                addedDiseases = draft.addedDiseases || [];
+
+                // Restore basic info fields
+                if (basicInfo.month) document.getElementById('month').value = basicInfo.month;
+                if (basicInfo.year) document.getElementById('year').value = basicInfo.year;
+                if (basicInfo.department) document.getElementById('department').value = basicInfo.department;
+                if (basicInfo.outcome) {
+                    const radio = document.querySelector(`input[name="outcome"][value="${basicInfo.outcome}"]`);
+                    if (radio) radio.checked = true;
+                }
+
+                // If we have diseases saved, go straight to entry step
+                if (addedDiseases.length > 0) {
+                    document.getElementById('lockedMonth').textContent = basicInfo.month || '';
+                    document.getElementById('lockedYear').textContent = basicInfo.year || '';
+                    document.getElementById('lockedDepartment').textContent = basicInfo.department || '';
+                    document.getElementById('lockedOutcome').textContent = basicInfo.outcome || '';
+                    document.getElementById('basicInfoSection').style.display = 'none';
+                    document.getElementById('diseaseEntrySection').style.display = 'block';
+                    updateSummaryTable();
+                    showAlert(`✓ Draft restored! ${addedDiseases.length} disease(s) recovered.`, 'success');
+                } else {
+                    showAlert('✓ Basic info restored from draft.', 'info');
+                }
+
+                document.getElementById('draftBanner').classList.add('hidden');
+            });
+        }
+
+        function discardDraft() {
+            clearDraftFromDB();
+            document.getElementById('draftBanner').classList.add('hidden');
+            showAlert('Draft discarded.', 'info');
+        }
+
+        // Check for existing draft on page load
+        async function checkForDraft() {
+            try {
+                await openDB();
+                const draft = await getDraftFromDB();
+                if (draft && (draft.addedDiseases.length > 0 || Object.keys(draft.basicInfo).length > 0)) {
+                    const banner = document.getElementById('draftBanner');
+                    const msg = draft.addedDiseases.length > 0
+                        ? `⚡ Unsaved draft found: ${draft.addedDiseases.length} disease(s) from ${draft.basicInfo.month || ''} ${draft.basicInfo.year || ''} (${draft.basicInfo.department || ''}). Saved at ${draft.savedAt}.`
+                        : `⚡ Incomplete draft found from your last session (saved at ${draft.savedAt}).`;
+                    document.getElementById('draftBannerMsg').textContent = msg;
+                    banner.classList.remove('hidden');
+                }
+            } catch(e) {
+                console.warn('IndexedDB not available, draft saving disabled:', e);
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        // PAGE INIT
+        // ─────────────────────────────────────────────
         async function loadDiseases() {
             try {
                 document.getElementById('loadingMsg').style.display = 'block';
@@ -841,8 +935,10 @@
             }
         }
 
-        // Load diseases when page loads
-        window.addEventListener('DOMContentLoaded', loadDiseases);
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadDiseases();
+            await checkForDraft();
+        });
 
         // Populate year dropdown
         const yearSelect = document.getElementById('year');
@@ -854,7 +950,9 @@
             yearSelect.appendChild(option);
         }
 
-        // Lock basic info and proceed to disease entry
+        // ─────────────────────────────────────────────
+        // FORM STEPS
+        // ─────────────────────────────────────────────
         function lockBasicInfo() {
             const month = document.getElementById('month').value;
             const year = document.getElementById('year').value;
@@ -866,12 +964,7 @@
                 return;
             }
 
-            basicInfo = {
-                month: month,
-                year: year,
-                department: department,
-                outcome: outcome.value
-            };
+            basicInfo = { month, year, department, outcome: outcome.value };
 
             document.getElementById('lockedMonth').textContent = month;
             document.getElementById('lockedYear').textContent = year;
@@ -880,21 +973,26 @@
 
             document.getElementById('basicInfoSection').style.display = 'none';
             document.getElementById('diseaseEntrySection').style.display = 'block';
+
+            // MOD 2: Save basicInfo as draft immediately
+            autoSaveDraft();
         }
 
         function unlockBasicInfo() {
             if (addedDiseases.length > 0) {
-                if (!confirm('Unlocking will clear all added diseases. Continue?')) {
-                    return;
-                }
+                if (!confirm('Unlocking will clear all added diseases. Continue?')) return;
                 addedDiseases = [];
                 updateSummaryTable();
             }
+            basicInfo = {};
+            clearDraftFromDB();
             document.getElementById('basicInfoSection').style.display = 'block';
             document.getElementById('diseaseEntrySection').style.display = 'none';
         }
 
-        // Add disease to list
+        // ─────────────────────────────────────────────
+        // DISEASE MANAGEMENT
+        // ─────────────────────────────────────────────
         function addDisease() {
             const icdCode = document.getElementById('icdCode').value;
             const diseaseName = document.getElementById('diseaseName').value;
@@ -905,12 +1003,12 @@
             }
 
             const data = [
-                { age: "<1", male: parseInt(document.getElementById('male_lt1').value) || 0, female: parseInt(document.getElementById('female_lt1').value) || 0 },
-                { age: "1-4", male: parseInt(document.getElementById('male_1_4').value) || 0, female: parseInt(document.getElementById('female_1_4').value) || 0 },
-                { age: "5-14", male: parseInt(document.getElementById('male_5_14').value) || 0, female: parseInt(document.getElementById('female_5_14').value) || 0 },
+                { age: "<1",    male: parseInt(document.getElementById('male_lt1').value) || 0,   female: parseInt(document.getElementById('female_lt1').value) || 0 },
+                { age: "1-4",   male: parseInt(document.getElementById('male_1_4').value) || 0,   female: parseInt(document.getElementById('female_1_4').value) || 0 },
+                { age: "5-14",  male: parseInt(document.getElementById('male_5_14').value) || 0,  female: parseInt(document.getElementById('female_5_14').value) || 0 },
                 { age: "15-29", male: parseInt(document.getElementById('male_15_29').value) || 0, female: parseInt(document.getElementById('female_15_29').value) || 0 },
                 { age: "30-64", male: parseInt(document.getElementById('male_30_64').value) || 0, female: parseInt(document.getElementById('female_30_64').value) || 0 },
-                { age: "65+", male: parseInt(document.getElementById('male_65plus').value) || 0, female: parseInt(document.getElementById('female_65plus').value) || 0 }
+                { age: "65+",   male: parseInt(document.getElementById('male_65plus').value) || 0, female: parseInt(document.getElementById('female_65plus').value) || 0 }
             ];
 
             const totalMale = data.reduce((sum, d) => sum + d.male, 0);
@@ -922,27 +1020,23 @@
                 return;
             }
 
-            addedDiseases.push({
-                icd_code: icdCode,
-                disease_name: diseaseName,
-                data: data,
-                totalMale: totalMale,
-                totalFemale: totalFemale,
-                totalCases: totalCases
-            });
+            addedDiseases.push({ icd_code: icdCode, disease_name: diseaseName, data, totalMale, totalFemale, totalCases });
 
             showAlert(`✓ ${diseaseName} added successfully!`, 'success');
             clearDiseaseForm();
             updateSummaryTable();
+
+            // MOD 2: Auto-save after every disease added
+            autoSaveDraft();
         }
 
         function clearDiseaseForm() {
             document.getElementById('diseaseInput').value = '';
             document.getElementById('icdCode').value = '';
             document.getElementById('diseaseName').value = '';
-            const inputs = ['male_lt1', 'female_lt1', 'male_1_4', 'female_1_4', 'male_5_14', 'female_5_14', 
-                           'male_15_29', 'female_15_29', 'male_30_64', 'female_30_64', 'male_65plus', 'female_65plus'];
-            inputs.forEach(id => document.getElementById(id).value = '0');
+            ['male_lt1','female_lt1','male_1_4','female_1_4','male_5_14','female_5_14',
+             'male_15_29','female_15_29','male_30_64','female_30_64','male_65plus','female_65plus']
+            .forEach(id => document.getElementById(id).value = '0');
         }
 
         function updateSummaryTable() {
@@ -970,44 +1064,42 @@
             if (confirm('Remove this disease from the list?')) {
                 addedDiseases.splice(index, 1);
                 updateSummaryTable();
+                autoSaveDraft(); // MOD 2: keep draft in sync after deletion
                 showAlert('Disease removed', 'info');
             }
         }
 
+        // ─────────────────────────────────────────────
+        // SUBMISSION
+        // ─────────────────────────────────────────────
         async function submitAllDiseases() {
             if (addedDiseases.length === 0) {
                 showAlert('No diseases to submit', 'error');
                 return;
             }
 
-            if (!confirm(`Submit ${addedDiseases.length} disease(s) to the database?`)) {
-                return;
-            }
-
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyc4Lz6Hl9bvs1Dyw9NT1c-m5jVbiHMZRrv75phiCIDJg8lWDLFvYBtuVilMFfq_wbw/exec';
+            if (!confirm(`Submit ${addedDiseases.length} disease(s) to the database?`)) return;
 
             try {
-                const payload = {
-                    ...basicInfo,
-                    diseases: addedDiseases
-                };
-
+                const payload = { ...basicInfo, diseases: addedDiseases };
                 console.log('Submitting:', payload);
 
-                const response = await fetch(SCRIPT_URL, {
+                await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
                 showAlert(`✓ Successfully submitted ${addedDiseases.length} disease(s)!`, 'success');
-                
+
+                // MOD 2: Clear the draft only after successful submission
+                clearDraftFromDB();
+
                 addedDiseases = [];
+                basicInfo = {};
                 updateSummaryTable();
-                
+
                 setTimeout(() => {
                     document.getElementById('basicInfoSection').style.display = 'block';
                     document.getElementById('diseaseEntrySection').style.display = 'none';
@@ -1019,17 +1111,19 @@
 
             } catch (error) {
                 console.error('Error:', error);
-                showAlert('Error submitting data. Please check console.', 'error');
+                showAlert('Error submitting data. Your draft is still saved — please try again.', 'error');
             }
         }
 
-        // Autocomplete functionality
+        // ─────────────────────────────────────────────
+        // AUTOCOMPLETE
+        // ─────────────────────────────────────────────
         const diseaseInput = document.getElementById('diseaseInput');
 
         diseaseInput.addEventListener('input', function() {
             const val = this.value;
             closeAllLists();
-            if (!val) return false;
+            if (!val) return;
             currentFocus = -1;
 
             const list = document.createElement('div');
@@ -1037,8 +1131,8 @@
             list.setAttribute('class', 'autocomplete-items');
             this.parentNode.appendChild(list);
 
-            const filtered = diseases.filter(d => 
-                d.name.toLowerCase().includes(val.toLowerCase()) || 
+            const filtered = diseases.filter(d =>
+                d.name.toLowerCase().includes(val.toLowerCase()) ||
                 d.code.toLowerCase().includes(val.toLowerCase())
             );
 
@@ -1058,22 +1152,16 @@
         diseaseInput.addEventListener('keydown', function(e) {
             let items = document.getElementById('autocomplete-list');
             if (items) items = items.getElementsByTagName('div');
-            if (e.keyCode == 40) {
-                currentFocus++;
-                addActive(items);
-            } else if (e.keyCode == 38) {
-                currentFocus--;
-                addActive(items);
-            } else if (e.keyCode == 13) {
+            if (e.keyCode === 40) { currentFocus++; addActive(items); }
+            else if (e.keyCode === 38) { currentFocus--; addActive(items); }
+            else if (e.keyCode === 13) {
                 e.preventDefault();
-                if (currentFocus > -1) {
-                    if (items) items[currentFocus].click();
-                }
+                if (currentFocus > -1 && items) items[currentFocus].click();
             }
         });
 
         function addActive(items) {
-            if (!items) return false;
+            if (!items) return;
             removeActive(items);
             if (currentFocus >= items.length) currentFocus = 0;
             if (currentFocus < 0) currentFocus = items.length - 1;
@@ -1081,33 +1169,28 @@
         }
 
         function removeActive(items) {
-            for (let i = 0; i < items.length; i++) {
-                items[i].classList.remove('autocomplete-active');
-            }
+            for (let i = 0; i < items.length; i++) items[i].classList.remove('autocomplete-active');
         }
 
         function closeAllLists() {
-            const items = document.getElementsByClassName('autocomplete-items');
-            for (let i = 0; i < items.length; i++) {
-                items[i].parentNode.removeChild(items[i]);
-            }
+            document.getElementsByClassName('autocomplete-items');
+            Array.from(document.getElementsByClassName('autocomplete-items'))
+                .forEach(el => el.parentNode.removeChild(el));
         }
 
         document.addEventListener('click', function(e) {
-            if (e.target !== diseaseInput) {
-                closeAllLists();
-            }
+            if (e.target !== diseaseInput) closeAllLists();
         });
 
+        // ─────────────────────────────────────────────
+        // UTILITIES
+        // ─────────────────────────────────────────────
         function showAlert(message, type) {
             const alertBox = document.getElementById('alertBox');
             alertBox.textContent = message;
             alertBox.className = `alert alert-${type}`;
             alertBox.style.display = 'block';
-            
-            setTimeout(() => {
-                alertBox.style.display = 'none';
-            }, 5000);
+            setTimeout(() => { alertBox.style.display = 'none'; }, 5000);
         }
     </script>
 </body>
