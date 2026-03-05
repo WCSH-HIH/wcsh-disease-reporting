@@ -145,6 +145,29 @@
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
+        /* Welcome / prompt message */
+        .welcome-prompt {
+            text-align: center;
+            padding: 60px 30px;
+            color: #718096;
+        }
+
+        .welcome-prompt-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .welcome-prompt h3 {
+            font-size: 1.4em;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .welcome-prompt p {
+            font-size: 1em;
+            color: #718096;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -425,59 +448,6 @@
             color: #ed64a6;
         }
 
-        /* Navigation buttons */
-        .nav-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: white;
-            color: #ff6b35;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95em;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-
-        .nav-button:hover {
-            transform: translateY(-50%) scale(1.05);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-            background: #fff5f0;
-        }
-
-        .nav-button-left {
-            left: 30px;
-        }
-
-        .nav-button-right {
-            right: 30px;
-        }
-
-        .nav-icon {
-            font-size: 1.2em;
-        }
-
-        @media (max-width: 768px) {
-            .nav-button {
-                padding: 10px 16px;
-                font-size: 0.85em;
-            }
-            
-            .nav-button-left {
-                left: 15px;
-            }
-            
-            .nav-button-right {
-                right: 15px;
-            }
-        }
-
         /* Bottom Navigation Buttons */
         .bottom-nav {
             position: relative;
@@ -529,12 +499,10 @@
             font-size: 1.3em;
         }
 
-        /* Add padding to body to prevent content from being hidden behind bottom nav */
         body {
             padding-bottom: 100px;
         }
 
-        /* Responsive Tables */
         .table-container {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -662,25 +630,25 @@
                 <div class="control-group">
                     <label for="filterMonth">Month</label>
                     <select id="filterMonth">
-                        <option value="">All Months</option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
+                        <option value="">-- Select Month --</option>
+                        <option value="January">January (ጥር)</option>
+<option value="February">February (የካቲት)</option>
+<option value="March">March (መጋቢት)</option>
+<option value="April">April (ሚያዚያ)</option>
+<option value="May">May (ግንቦት)</option>
+<option value="June">June (ሰኔ)</option>
+<option value="July">July (ሐምሌ)</option>
+<option value="August">August (ነሐሴ)</option>
+<option value="September">September (መስከረም)</option>
+<option value="October">October (ጥቅምት)</option>
+<option value="November">November (ህዳር)</option>
+<option value="December">December (ታህሳስ)</option>
                     </select>
                 </div>
                 <div class="control-group">
                     <label for="filterYear">Year</label>
                     <select id="filterYear">
-                        <option value="">All Years</option>
+                        <option value="">-- Select Year --</option>
                     </select>
                 </div>
                 <div class="control-group">
@@ -729,9 +697,6 @@
                             <option value="Psychiatry Addiction OPD">Psychiatry Addiction OPD</option>
                             <option value="Psychiatry Child OPD">Psychiatry Child OPD</option>
                             <option value="Dialysis OPD">Dialysis OPD</option>
-                            <option value="OPD 49">OPD 49</option>
-                            <option value="OPD 50">OPD 50</option>
-                            <option value="OPD 51">OPD 51</option>
                     </select>
                 </div>
                 <div class="control-group">
@@ -770,6 +735,13 @@
             <div id="loadingIndicator" class="loading" style="display: none;">
                 <div class="loading-spinner"></div>
                 <p>Loading disease data...</p>
+            </div>
+
+            <!-- MOD 1: Welcome prompt shown on first load instead of auto-loading data -->
+            <div id="welcomePrompt" class="welcome-prompt">
+                <div class="welcome-prompt-icon">📊</div>
+                <h3>Select filters to view rankings</h3>
+                <p>Please choose a <strong>Month</strong> and <strong>Year</strong> above, then click <strong>Load Data</strong>.</p>
             </div>
 
             <div id="noDataMessage" class="no-data" style="display: none;">
@@ -824,24 +796,21 @@
                 </div>
             </div>
         </div>
+
         <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <a href="index.html" class="bottom-btn bottom-btn-home">
-            <span class="bottom-btn-icon">🏠</span>
-            <span>Back to Home</span>
-        </a>
-        <a href="report.html" class="bottom-btn bottom-btn-action">
-            <span class="bottom-btn-icon">📝</span>
-            <span>Submit Report</span>
-        </a>
+        <div class="bottom-nav">
+            <a href="index.html" class="bottom-btn bottom-btn-home">
+                <span class="bottom-btn-icon">🏠</span>
+                <span>Back to Home</span>
+            </a>
+            <a href="report.html" class="bottom-btn bottom-btn-action">
+                <span class="bottom-btn-icon">📝</span>
+                <span>Submit Report</span>
+            </a>
+        </div>
     </div>
-
-    </div>
-
-    
 
     <script>
-        // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyc4Lz6Hl9bvs1Dyw9NT1c-m5jVbiHMZRrv75phiCIDJg8lWDLFvYBtuVilMFfq_wbw/exec';
 
         // Populate year dropdown
@@ -854,198 +823,158 @@
             yearSelect.appendChild(option);
         }
 
-        // Set current month and year as default
-        const currentMonth = new Date().toLocaleString('default', { month: 'long' });
-        document.getElementById('filterMonth').value = currentMonth;
-        document.getElementById('filterYear').value = currentYear;
+        // MOD 1: DO NOT auto-load on page load — wait for user to click "Load Data"
+        // (Removed the window.addEventListener 'load' that called loadDashboard())
 
-        // Load dashboard on page load
-        window.addEventListener('load', () => {
-            loadDashboard();
-        });
-        // WCSH Disease Ranking Dashboard - JavaScript Part 2
-// Copy this code and paste it in the <script> section of Part 1, after the window.addEventListener line
+        async function loadDashboard() {
+            const month = document.getElementById('filterMonth').value;
+            const year = document.getElementById('filterYear').value;
+            const department = document.getElementById('filterDepartment').value;
 
-async function loadDashboard() {
-    const month = document.getElementById('filterMonth').value;
-    const year = document.getElementById('filterYear').value;
-    const department = document.getElementById('filterDepartment').value;
+            // Validate: require month and year before loading
+            if (!month || !year) {
+                showAlert('Please select both a Month and a Year before loading data.', 'error');
+                return;
+            }
 
-    // Show loading
-    document.getElementById('loadingIndicator').style.display = 'block';
-    document.getElementById('statsGrid').style.display = 'none';
-    document.getElementById('morbiditySection').style.display = 'none';
-    document.getElementById('mortalitySection').style.display = 'none';
-    document.getElementById('noDataMessage').style.display = 'none';
+            // Hide welcome prompt once user loads data
+            document.getElementById('welcomePrompt').style.display = 'none';
 
-    try {
-        // Fetch data from Google Sheets
-        const response = await fetch(`${SCRIPT_URL}?action=getRankings&month=${month}&year=${year}&department=${department}`);
-        const data = await response.json();
+            // Show loading
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('statsGrid').style.display = 'none';
+            document.getElementById('morbiditySection').style.display = 'none';
+            document.getElementById('mortalitySection').style.display = 'none';
+            document.getElementById('noDataMessage').style.display = 'none';
 
-        if (data.status === 'error') {
-            showAlert(data.message, 'error');
-            document.getElementById('loadingIndicator').style.display = 'none';
-            document.getElementById('noDataMessage').style.display = 'block';
-            return;
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getRankings&month=${month}&year=${year}&department=${department}`);
+                const data = await response.json();
+
+                if (data.status === 'error') {
+                    showAlert(data.message, 'error');
+                    document.getElementById('loadingIndicator').style.display = 'none';
+                    document.getElementById('noDataMessage').style.display = 'block';
+                    return;
+                }
+
+                document.getElementById('loadingIndicator').style.display = 'none';
+
+                if (!data.morbidityRankings || data.morbidityRankings.length === 0) {
+                    document.getElementById('noDataMessage').style.display = 'block';
+                    return;
+                }
+
+                displayStatistics(data);
+                displayMorbidityRankings(data.morbidityRankings);
+                displayMortalityRankings(data.mortalityRankings);
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                document.getElementById('loadingIndicator').style.display = 'none';
+                showAlert('Error loading data. Please check your Google Apps Script URL.', 'error');
+            }
         }
 
-        // Hide loading
-        document.getElementById('loadingIndicator').style.display = 'none';
-
-        if (!data.morbidityRankings || data.morbidityRankings.length === 0) {
-            document.getElementById('noDataMessage').style.display = 'block';
-            return;
+        function displayStatistics(data) {
+            const stats = data.statistics;
+            document.getElementById('totalMorbidity').textContent = formatNumber(stats.totalMorbidity);
+            document.getElementById('totalMortality').textContent = formatNumber(stats.totalMortality);
+            document.getElementById('uniqueDiseases').textContent = formatNumber(stats.uniqueDiseases);
+            document.getElementById('totalCases').textContent = formatNumber(stats.totalCases);
+            document.getElementById('statsGrid').style.display = 'grid';
         }
 
-        // Show stats
-        displayStatistics(data);
+        function displayMorbidityRankings(rankings) {
+            if (!rankings || rankings.length === 0) return;
 
-        // Show rankings
-        displayMorbidityRankings(data.morbidityRankings);
-        displayMortalityRankings(data.mortalityRankings);
+            const tbody = document.getElementById('morbidityTableBody');
+            tbody.innerHTML = '';
+            const maxCases = rankings[0].totalCases;
 
-    } catch (error) {
-        console.error('Error loading dashboard:', error);
-        document.getElementById('loadingIndicator').style.display = 'none';
-        showAlert('Error loading data. Please check your Google Apps Script URL.', 'error');
-    }
-}
+            rankings.forEach((disease, index) => {
+                const rank = index + 1;
+                const percentage = (disease.totalCases / maxCases) * 100;
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><div class="rank-badge ${getRankClass(rank)}">${rank}</div></td>
+                    <td>
+                        <span class="disease-code">${disease.icdCode}</span>
+                        <span class="disease-name">${disease.diseaseName}</span>
+                    </td>
+                    <td><div class="case-count">${formatNumber(disease.totalCases)}</div></td>
+                    <td>
+                        <div class="percentage-bar">
+                            <div class="percentage-fill morbidity" style="width: ${percentage}%"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="gender-split">
+                            <div class="gender-item"><span class="gender-icon male-icon">♂</span><span>${formatNumber(disease.maleCases)}</span></div>
+                            <div class="gender-item"><span class="gender-icon female-icon">♀</span><span>${formatNumber(disease.femaleCases)}</span></div>
+                        </div>
+                    </td>
+                `;
+            });
 
-function displayStatistics(data) {
-    const stats = data.statistics;
-    
-    document.getElementById('totalMorbidity').textContent = formatNumber(stats.totalMorbidity);
-    document.getElementById('totalMortality').textContent = formatNumber(stats.totalMortality);
-    document.getElementById('uniqueDiseases').textContent = formatNumber(stats.uniqueDiseases);
-    document.getElementById('totalCases').textContent = formatNumber(stats.totalCases);
+            document.getElementById('morbidityCount').textContent = `${rankings.length} Diseases`;
+            document.getElementById('morbiditySection').style.display = 'block';
+        }
 
-    document.getElementById('statsGrid').style.display = 'grid';
-}
+        function displayMortalityRankings(rankings) {
+            if (!rankings || rankings.length === 0) return;
 
-function displayMorbidityRankings(rankings) {
-    if (!rankings || rankings.length === 0) {
-        return;
-    }
+            const tbody = document.getElementById('mortalityTableBody');
+            tbody.innerHTML = '';
+            const maxCases = rankings[0].totalCases;
 
-    const tbody = document.getElementById('morbidityTableBody');
-    tbody.innerHTML = '';
+            rankings.forEach((disease, index) => {
+                const rank = index + 1;
+                const percentage = (disease.totalCases / maxCases) * 100;
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><div class="rank-badge ${getRankClass(rank)}">${rank}</div></td>
+                    <td>
+                        <span class="disease-code">${disease.icdCode}</span>
+                        <span class="disease-name">${disease.diseaseName}</span>
+                    </td>
+                    <td><div class="case-count">${formatNumber(disease.totalCases)}</div></td>
+                    <td>
+                        <div class="percentage-bar">
+                            <div class="percentage-fill mortality" style="width: ${percentage}%"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="gender-split">
+                            <div class="gender-item"><span class="gender-icon male-icon">♂</span><span>${formatNumber(disease.maleCases)}</span></div>
+                            <div class="gender-item"><span class="gender-icon female-icon">♀</span><span>${formatNumber(disease.femaleCases)}</span></div>
+                        </div>
+                    </td>
+                `;
+            });
 
-    const maxCases = rankings[0].totalCases;
+            document.getElementById('mortalityCount').textContent = `${rankings.length} Diseases`;
+            document.getElementById('mortalitySection').style.display = 'block';
+        }
 
-    rankings.forEach((disease, index) => {
-        const rank = index + 1;
-        const percentage = (disease.totalCases / maxCases) * 100;
-        
-        const row = tbody.insertRow();
-        row.innerHTML = `
-            <td>
-                <div class="rank-badge ${getRankClass(rank)}">${rank}</div>
-            </td>
-            <td>
-                <span class="disease-code">${disease.icdCode}</span>
-                <span class="disease-name">${disease.diseaseName}</span>
-            </td>
-            <td>
-                <div class="case-count">${formatNumber(disease.totalCases)}</div>
-            </td>
-            <td>
-                <div class="percentage-bar">
-                    <div class="percentage-fill morbidity" style="width: ${percentage}%"></div>
-                </div>
-            </td>
-            <td>
-                <div class="gender-split">
-                    <div class="gender-item">
-                        <span class="gender-icon male-icon">♂</span>
-                        <span>${formatNumber(disease.maleCases)}</span>
-                    </div>
-                    <div class="gender-item">
-                        <span class="gender-icon female-icon">♀</span>
-                        <span>${formatNumber(disease.femaleCases)}</span>
-                    </div>
-                </div>
-            </td>
-        `;
-    });
+        function getRankClass(rank) {
+            if (rank === 1) return 'rank-1';
+            if (rank === 2) return 'rank-2';
+            if (rank === 3) return 'rank-3';
+            return 'rank-other';
+        }
 
-    document.getElementById('morbidityCount').textContent = `${rankings.length} Diseases`;
-    document.getElementById('morbiditySection').style.display = 'block';
-}
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
 
-function displayMortalityRankings(rankings) {
-    if (!rankings || rankings.length === 0) {
-        return;
-    }
-
-    const tbody = document.getElementById('mortalityTableBody');
-    tbody.innerHTML = '';
-
-    const maxCases = rankings[0].totalCases;
-
-    rankings.forEach((disease, index) => {
-        const rank = index + 1;
-        const percentage = (disease.totalCases / maxCases) * 100;
-        
-        const row = tbody.insertRow();
-        row.innerHTML = `
-            <td>
-                <div class="rank-badge ${getRankClass(rank)}">${rank}</div>
-            </td>
-            <td>
-                <span class="disease-code">${disease.icdCode}</span>
-                <span class="disease-name">${disease.diseaseName}</span>
-            </td>
-            <td>
-                <div class="case-count">${formatNumber(disease.totalCases)}</div>
-            </td>
-            <td>
-                <div class="percentage-bar">
-                    <div class="percentage-fill mortality" style="width: ${percentage}%"></div>
-                </div>
-            </td>
-            <td>
-                <div class="gender-split">
-                    <div class="gender-item">
-                        <span class="gender-icon male-icon">♂</span>
-                        <span>${formatNumber(disease.maleCases)}</span>
-                    </div>
-                    <div class="gender-item">
-                        <span class="gender-icon female-icon">♀</span>
-                        <span>${formatNumber(disease.femaleCases)}</span>
-                    </div>
-                </div>
-            </td>
-        `;
-    });
-
-    document.getElementById('mortalityCount').textContent = `${rankings.length} Diseases`;
-    document.getElementById('mortalitySection').style.display = 'block';
-}
-
-function getRankClass(rank) {
-    if (rank === 1) return 'rank-1';
-    if (rank === 2) return 'rank-2';
-    if (rank === 3) return 'rank-3';
-    return 'rank-other';
-}
-
-function formatNumber(num) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function showAlert(message, type) {
-    const alertBox = document.getElementById('alertBox');
-    alertBox.textContent = message;
-    alertBox.className = `alert alert-${type}`;
-    alertBox.style.display = 'block';
-    
-    setTimeout(() => {
-        alertBox.style.display = 'none';
-    }, 5000);
-}
-
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.style.display = 'block';
+            setTimeout(() => { alertBox.style.display = 'none'; }, 5000);
+        }
     </script>
 </body>
-
 </html>
